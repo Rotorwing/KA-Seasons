@@ -17,12 +17,14 @@ const scene = new BABYLON.Scene(engine);
 const insideRenderTarget = new BABYLON.RenderTargetTexture("insideRenderTarget", { width: engine.getRenderWidth(), height:engine.getRenderHeight() }, scene);
 // scene.customRenderTargets.push(insideRenderTarget);
 
-const camera = new BABYLON.ArcRotateCamera("Camera", 30, 1, 10, new BABYLON.Vector3(0, 0, 0), scene);
+const camera = new BABYLON.ArcRotateCamera("Camera", 26.6, 1.18, 5, new BABYLON.Vector3(0, 0, 0), scene);
 camera.attachControl(canvas, true);
 camera.minZ = 0.1;
 camera.maxZ = 20;
 camera.wheelPrecision = 100;
 camera.layerMask = 0x10000000;
+camera.lowerRadiusLimit = 1.7
+camera.upperRadiusLimit = 10.0;
 
 const sun = new BABYLON.DirectionalLight("sun", new BABYLON.Vector3(-0.7, -0.5, -0.1), scene);
 sun.position = sun.direction.scale(-10);
@@ -121,7 +123,7 @@ function onLoadTexture(texture) {
 // ArrayBuffer
 // BABYLON.SceneLoader.AppendAsync("../Exports/", "globev8.txt", scene, function (progress) {console.log("Loading progress:", progress.loaded, "/", progress.total);}).then(function (result) {
 // 
-let base64 = globev8;
+let base64 = globev9;
 if(Array.isArray(base64)){
     base64 = base64.join("");
 }
@@ -207,6 +209,16 @@ BABYLON.SceneLoader.AppendAsync("../Exports/", ua, scene, function (progress) {c
                 material.refractionTexture = insideRenderTarget;
                 material.roughness = 0.1;
                 material.metallic = 0.0;
+            }
+            if(materialName === "Nice Wood"){
+                material.albedoTexture = window.textures.woodDiffuseTexture;
+                material.bumpTexture = window.textures.woodNormalTexture;
+                material.roughnessTexture = window.textures.woodRoughnessTexture;
+            }
+            if(materialName === "Brass"){
+                material.bumpTexture = window.textures.metalNormalTexture;
+                material.roughnessTexture = window.textures.metalRoughnessTexture;
+                
             }
 
         }
@@ -298,6 +310,11 @@ window.textures = {
     pathTexture: KhanImageLoader.LoadBase64Jpeg("pathTexture", window.Path1, onLoadTexture),
     pathNormalTexture: KhanImageLoader.LoadBase64Jpeg("pathNormalTexture", window.pathnormal3, onLoadTexture),
     brdfTexture: KhanImageLoader.LoadBase64Jpeg("brdfTexture", window.brdf, onLoadTexture),
+    woodDiffuseTexture: KhanImageLoader.LoadBase64Jpeg("woodDiffuseTexture", window.woodDiffuse, onLoadTexture),
+    woodNormalTexture: KhanImageLoader.LoadBase64Jpeg("woodNormalTexture", window.woodNormal, onLoadTexture),
+    woodRoughnessTexture: KhanImageLoader.LoadBase64Jpeg("woodRoughnessTexture", window.woodRoughness, onLoadTexture),
+    metalNormalTexture: KhanImageLoader.LoadBase64Jpeg("metalNormalTexture", window.metalNormal, onLoadTexture),
+    metalRoughnessTexture: KhanImageLoader.LoadBase64Jpeg("metalRoughnessTexture", window.metalRoughness, onLoadTexture),
 }
 
 engine.runRenderLoop(function () {

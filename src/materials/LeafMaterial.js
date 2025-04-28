@@ -12,5 +12,8 @@ class LeafMaterial extends BABYLON.StandardMaterial {
 
         this.opacityTexture = scene.getTextureByName("Leaves (Base Color)"); // dots
         this.diffuseTexture = scene.getTextureByName("Dirt (Base Color)"); // noise
+
+        // this.opacityTexture = window.textures.voronoiTexture;
+        // this.diffuseTexture = window.textures.noiseTexture;
     }
 }

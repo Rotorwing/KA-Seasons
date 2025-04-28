@@ -88,8 +88,54 @@ function updateSeason(deltaTime) {
     // console.log("Time of Year:", timeOfYear.toFixed(2), "Fall Factor:", fallFactor.toFixed(2), "Winter Factor:", winterFactor.toFixed(2));
 }
 
-BABYLON.SceneLoader.AppendAsync("../Exports/", "globev8.glb", scene, function (progress) {}).then(function (result) {
-    
+// asset = "../Exports/globev8.glb";
+// if(window.isKhan){
+//     // asset = "https://raw.githubusercontent.com/khansperger/GlobeV8/main/Exports/globev8.glb";
+//     // asset = "data:;base64,"+window.globev8.join("");
+//     asset = window.drone2Glb;
+// }
+let texturesLoaded = 0;
+
+function onLoadTexture(name, texture) {
+    if(!window.textures) window.textures = {};
+    window.textures[name] = texture;
+    texturesLoaded++;
+    if(texturesLoaded >= Object.keys(window.textures).length){
+        console.log("All textures loaded successfully.");
+        loadScene();
+    }else{
+        console.log("Textures not yet loaded:", texturesLoaded, "/", Object.keys(window.textures).length);
+    }
+}
+// function loadScene() {
+// const loader = new BABYLON.GLTFFileLoader();
+// loader.loggingEnabled = true;
+
+// loader.loadAsync(scene, "../Exports/drone2.glb", "", function (data) {
+// ArrayBuffer
+// BABYLON.SceneLoader.AppendAsync("../Exports/", "globev8.txt", scene, function (progress) {console.log("Loading progress:", progress.loaded, "/", progress.total);}).then(function (result) {
+// 
+let base64 = globev8;
+if(Array.isArray(base64)){
+    base64 = base64.join("");
+}
+
+// Convert Base64 to bytes:
+var binaryImg = atob(base64);
+var dataLength = binaryImg.length;
+var ab = new ArrayBuffer(dataLength);
+var ua = new Uint8Array(ab);
+for (var i = 0; i < dataLength; i++) {
+    ua[i] = binaryImg.charCodeAt(i);
+}
+BABYLON.SceneLoader.AppendAsync("../Exports/", ua, scene, function (progress) {console.log("Loading progress:", progress.loaded, "/", progress.total);}, ".glb").then(function (result) {
+// BABYLON.SceneLoader.lo({rawData:ua}, scene, ()=>{console.log("Scene loaded successfully.")},
+//                                                          (p)=>{console.log(p)},
+//                                                          (e)=>{console.error("Error loading scene:", e);},
+//                                                         null,
+//                                                         ".glb",
+
+//                                                         ).then(function () {
     try {
         for(let material of scene.materials){
             let materialName = material.name.split(".")[0];
@@ -152,7 +198,19 @@ BABYLON.SceneLoader.AppendAsync("../Exports/", "globev8.glb", scene, function (p
                 material.metallic = 0.0;
             }
         }
+        // let loadedMeshes = {};
         for(let mesh of scene.meshes){
+            // if (mesh.name in loadedMeshes) {
+            //     let instance = loadedMeshes[mesh.name].createInstance(mesh.name+"_instance");
+            //     instance.position = mesh.position;
+            //     instance.rotation = mesh.rotation;
+            //     instance.scaling = mesh.scaling;
+            //     instance.freezeWorldMatrix();
+            //     mesh.dispose();
+            //     continue;
+            // }else{
+            //     loadedMeshes[mesh.name] = mesh;
+            // }
             mesh.freezeWorldMatrix();
 
             let meshName = mesh.name.split(".")[0];
@@ -216,7 +274,17 @@ BABYLON.SceneLoader.AppendAsync("../Exports/", "globev8.glb", scene, function (p
     }catch(e){
         console.error("Error processing materials:", e);
     }
+
 });
+
+// window.textures = {
+//     noiseTexture: KhanImageLoader.LoadBase64Jpeg(window.perlin, (t)=>{texturesLoaded++;onLoadTexture("noiseTexture", t);}),
+//     noiseNormalTexture: KhanImageLoader.LoadBase64Jpeg(window.perlinnormal, (t)=>{texturesLoaded++;onLoadTexture("noiseNormalTexture", t);}),
+//     streaksTexture: KhanImageLoader.LoadBase64Jpeg(window.streaks, (t)=>{texturesLoaded++;onLoadTexture("streaksTexture", t);}),
+//     voronoiTxture: KhanImageLoader.LoadBase64Jpeg(window.tilingvoronoi, (t)=>{texturesLoaded++;onLoadTexture("voronoiTexture", t);}),
+//     pathTexture: KhanImageLoader.LoadBase64Jpeg(window.Path1, (t)=>{texturesLoaded++;onLoadTexture("pathTexture", t);}),
+//     pathNormalTexture: KhanImageLoader.LoadBase64Jpeg(window.pathnormal3, (t)=>{texturesLoaded++;onLoadTexture("pathNormalTexture", t);})
+// }
 
 engine.runRenderLoop(function () {
     scene.render();

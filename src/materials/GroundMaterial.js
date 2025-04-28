@@ -15,6 +15,11 @@ class GroundMaterial extends BABYLON.StandardMaterial {
         this.specularTexture = scene.getTextureByName("Dirt (Metallic Roughness)");
         this.emissiveTexture = scene.getTextureByName("Dirt (Emissive)");
 
+        // this.diffuseTexture = window.textures.noiseTexture;
+        // this.bumpTexture = window.textures.pathNormalTexture;
+        // this.specularTexture = window.textures.noiseTexture;
+        // this.emissiveTexture = window.textures.pathTexture;
+
         this.bumpTexture.level = 0.9;
 
         this.groundShaderPlugin = new GroundShaderPlugin(this);

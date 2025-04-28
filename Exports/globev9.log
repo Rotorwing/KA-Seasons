@@ -1,0 +1,52 @@
+Exporter version: 3.3.2, Blender version: 4.4.1
+========= Conversion from Blender to Babylon.js =========
+	Scene settings used :
+		Inline textures     :  false
+		Material Type       :  PBR
+		Positions Precision :  4
+		Normals Precision   :  3
+		UVs Precision       :  3
+		Vert Color Precision:  3
+		Mat Weight Precision:  2
+		Keep Z-up r-handed  :  no
+		Texture directory   :  /Users/admin/Documents/3DKhan/Globe/Exports/
+			WARNING: unsupported node type(ShaderNodeTexNoise) will trigger baking
+	Python World class constructor completed
+	processing begun of camera (UniversalCamera):  Camera.001
+	processing begun of mesh:  Dirt.001
+		processing begun of material:  Dirt
+			WARNING: unsupported node type(ShaderNodeValToRGB) will trigger baking
+========= An error was encountered =========
+  File "/Users/admin/Library/Application Support/Blender/4.4/scripts/addons/babylon_js/json_exporter.py", line 118, in execute
+    mesh = Mesh(object, scene, self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Library/Application Support/Blender/4.4/scripts/addons/babylon_js/mesh.py", line 151, in __init__
+    recipe = BakingRecipe(bpyMesh, exporter)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Library/Application Support/Blender/4.4/scripts/addons/babylon_js/materials/baking_recipe.py", line 43, in __init__
+    bjsMaterial = BJSMaterial(bpyMaterial, exporter)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Library/Application Support/Blender/4.4/scripts/addons/babylon_js/materials/material.py", line 109, in __init__
+    self.bjsNodeTree = AbstractBJSNode.readMaterialNodeTree(bpyMaterial.node_tree, self.overloadChannels)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Library/Application Support/Blender/4.4/scripts/addons/babylon_js/materials/nodes/abstract.py", line 265, in readMaterialNodeTree
+    return AbstractBJSNode.readNodeTree(node_tree, 'ShaderNodeOutputMaterial', overloadChannels)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Library/Application Support/Blender/4.4/scripts/addons/babylon_js/materials/nodes/abstract.py", line 285, in readNodeTree
+    return AbstractBJSNode(output, topLevelId, overloadChannels)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Library/Application Support/Blender/4.4/scripts/addons/babylon_js/materials/nodes/abstract.py", line 84, in __init__
+    bjsWrapperNode = AbstractBJSNode.GetBJSWrapperNode(nodeSocket.links[0].from_node, nodeSocket.name, overloadChannels)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Library/Application Support/Blender/4.4/scripts/addons/babylon_js/materials/nodes/abstract.py", line 335, in GetBJSWrapperNode
+    return PrincipledBJSNode(bpyNode, socketName, overloadChannels)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Library/Application Support/Blender/4.4/scripts/addons/babylon_js/materials/nodes/principled.py", line 25, in __init__
+    subsurface = self.getDefault('Subsurface')
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Library/Application Support/Blender/4.4/scripts/addons/babylon_js/materials/nodes/abstract.py", line 217, in getDefault
+    return self.defaults[socketName]
+           ~~~~~~~~~~~~~^^^^^^^^^^^^
+ERROR:  'Subsurface'
+========= end of processing =========
+elapsed time:  0 min, 0.1074 secs

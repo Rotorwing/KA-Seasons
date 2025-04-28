@@ -13,5 +13,8 @@ class GrassMaterial extends BABYLON.StandardMaterial {
         this.opacityTexture = scene.getTextureByName("Leaves (Base Color)"); // dots
         this.diffuseTexture = scene.getTextureByName("Dirt (Emissive)"); // paths
         this.specularTexture = scene.getTextureByName("Dirt (Metallic Roughness)"); // noise
+        // this.opacityTexture = window.textures.voronoiTexture;
+        // this.diffuseTexture = window.textures.pathTexture;
+        // this.specularTexture = window.textures.noiseTexture;
     }
 }

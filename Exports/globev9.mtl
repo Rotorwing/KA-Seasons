@@ -1,0 +1,115 @@
+# Blender 4.4.1 MTL File: 'globe.blend'
+# www.blender.org
+
+newmtl Blocker
+Ns 10.459716
+Ka 1.000000 1.000000 1.000000
+Kd 0.021318 0.010104 0.002981
+Ks 0.118182 0.118182 0.118182
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+
+newmtl Brass
+Ka 0.934091 0.934091 0.934091
+Kd 0.833051 0.515256 0.188563
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 3
+map_Ns /Users/admin/Documents/Blender/assets/textures/metal/brushed/Metal009_1K-PNG_Roughness.png
+map_Bump -bm 1.000000 /Users/admin/Documents/Blender/assets/textures/metal/brushed/Metal009_1K-PNG_NormalGL.png
+
+newmtl Dirt
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.071009 0.027074 0.004054
+Ks 0.300000 0.300000 0.300000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Bump -s 7.9999995 7.9999995 7.9999995 -bm 1.000000 /Users/admin/Documents/3DKhan/Globe/Textures/path-naormal3.png
+
+newmtl Glass
+Ns 360.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+
+newmtl Grass.001
+Ns 56.947319
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.406818 0.406818 0.406818
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+
+newmtl Leaves
+Ns 21.823341
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.106818 0.106818 0.106818
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+
+newmtl Logs
+Ns 176.782043
+Ka 1.000000 1.000000 1.000000
+Kd 0.070965 0.022853 0.005969
+Ks 0.218182 0.218182 0.218182
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+
+newmtl Nice_Wood
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd /Users/admin/Documents/Blender/assets/textures/wood/fine-wood-veneer/umugl1r8_4k_diffuse_light.png
+map_Ns /Users/admin/Documents/Blender/assets/textures/wood/fine-wood-veneer/umugl1r8_4k_roughness.png
+map_Bump -bm 1.000000 /Users/admin/Documents/Blender/assets/textures/wood/fine-wood-veneer/umugl1r8_4k_normal.png
+
+newmtl Shingles.001
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.136998 0.018911 0.006044
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+
+newmtl Stone
+Ns 182.561996
+Ka 1.000000 1.000000 1.000000
+Kd 0.031663 0.032984 0.037138
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+
+newmtl Wood_Trim
+Ns 114.674614
+Ka 1.000000 1.000000 1.000000
+Kd 0.100837 0.030124 0.003257
+Ks 0.247727 0.247727 0.247727
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2

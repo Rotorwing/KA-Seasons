@@ -12,6 +12,8 @@ gl.canvas.style.width = "100%";
 const engine = new BABYLON.Engine(canvas,true);
 const scene = new BABYLON.Scene(engine);
 
+
+
 const insideRenderTarget = new BABYLON.RenderTargetTexture("insideRenderTarget", { width: engine.getRenderWidth(), height:engine.getRenderHeight() }, scene);
 // scene.customRenderTargets.push(insideRenderTarget);
 
@@ -95,19 +97,23 @@ function updateSeason(deltaTime) {
 //     asset = window.drone2Glb;
 // }
 let texturesLoaded = 0;
-
-function onLoadTexture(name, texture) {
+let triggeredLoad = false;
+function onLoadTexture(texture) {
+    let name = texture.name;
     if(!window.textures) window.textures = {};
-    window.textures[name] = texture;
-    texturesLoaded++;
-    if(texturesLoaded >= Object.keys(window.textures).length){
+    if(!window.textures[name]) {
+        window.textures[name] = texture;
+        texturesLoaded++;
+    }
+    if(texturesLoaded >= Object.keys(window.textures).length && !triggeredLoad){
+        triggeredLoad = true;
         console.log("All textures loaded successfully.");
         loadScene();
     }else{
         console.log("Textures not yet loaded:", texturesLoaded, "/", Object.keys(window.textures).length);
     }
 }
-// function loadScene() {
+
 // const loader = new BABYLON.GLTFFileLoader();
 // loader.loggingEnabled = true;
 
@@ -128,6 +134,9 @@ var ua = new Uint8Array(ab);
 for (var i = 0; i < dataLength; i++) {
     ua[i] = binaryImg.charCodeAt(i);
 }
+
+function loadScene() {
+    scene.environmentBRDFTexture = window.textures.brdfTexture;
 BABYLON.SceneLoader.AppendAsync("../Exports/", ua, scene, function (progress) {console.log("Loading progress:", progress.loaded, "/", progress.total);}, ".glb").then(function (result) {
 // BABYLON.SceneLoader.lo({rawData:ua}, scene, ()=>{console.log("Scene loaded successfully.")},
 //                                                          (p)=>{console.log(p)},
@@ -141,8 +150,10 @@ BABYLON.SceneLoader.AppendAsync("../Exports/", ua, scene, function (progress) {c
             let materialName = material.name.split(".")[0];
             if(materialName === "Logs" || materialName === "Wood Trim" || materialName === "Shingles"){
                 let replacementMaterial = new BABYLON.StandardMaterial(materialName+"Material", scene);
-                replacementMaterial.diffuseTexture = scene.getTextureByName("Logs (Base Color)");
-                replacementMaterial.specularTexture = scene.getTextureByName("Logs (Metallic Roughness)");
+                // replacementMaterial.diffuseTexture = scene.getTextureByName("Logs (Base Color)");
+                // replacementMaterial.specularTexture = scene.getTextureByName("Logs (Metallic Roughness)");
+                replacementMaterial.diffuseTexture = window.textures.streaksTexture;
+                replacementMaterial.specularTexture = window.textures.streaksTexture;
                 replacementMaterial.specularColor = new BABYLON.Color3(0.05, 0.04, 0.02);
                 replacementMaterial.specularPower = 50;
                 
@@ -197,6 +208,7 @@ BABYLON.SceneLoader.AppendAsync("../Exports/", ua, scene, function (progress) {c
                 material.roughness = 0.1;
                 material.metallic = 0.0;
             }
+
         }
         // let loadedMeshes = {};
         for(let mesh of scene.meshes){
@@ -219,7 +231,7 @@ BABYLON.SceneLoader.AppendAsync("../Exports/", ua, scene, function (progress) {c
             if(meshName === "Grass"){
                 mesh.receiveShadows = true;
                 if(mesh.material) { mesh.material.dispose(); }
-                mesh.material = new GrassMaterial('GrassMaterial', scene);
+                mesh.material = new GrassMaterial('GrassMaterial', scene, "35.0");
                 // mesh.material.grassShaderPlugin.wind = new BABYLON.Vector2(0.1, 0.0);
                 seasonalShaders.push(mesh.material.grassShaderPlugin);
                 
@@ -238,7 +250,7 @@ BABYLON.SceneLoader.AppendAsync("../Exports/", ua, scene, function (progress) {c
             if(meshName === "Tree Instancer"){
                 if(!mesh.material || mesh.material.name === "Leaves"){
                     if(mesh.material) { mesh.material.dispose(); }
-                    mesh.material = new LeafMaterial('TreeMaterial', scene, "0.7");
+                    mesh.material = new LeafMaterial('TreeMaterial', scene, "9.0");
                     mesh.material.backFaceCulling = false;
 
                     seasonalShaders.push(mesh.material.leafShaderPlugin);
@@ -248,7 +260,7 @@ BABYLON.SceneLoader.AppendAsync("../Exports/", ua, scene, function (progress) {c
             }
             if(meshName === "Bush Instancer"){
                 if(mesh.material) { mesh.material.dispose(); }
-                mesh.material = new LeafMaterial('BushMaterial', scene, "1.0");
+                mesh.material = new LeafMaterial('BushMaterial', scene, "15.0");
                 mesh.material.backFaceCulling = false;
                 shadowCaster.addShadowCaster(mesh, true);
                 mesh.receiveShadows = true;
@@ -276,15 +288,17 @@ BABYLON.SceneLoader.AppendAsync("../Exports/", ua, scene, function (progress) {c
     }
 
 });
+}
 
-// window.textures = {
-//     noiseTexture: KhanImageLoader.LoadBase64Jpeg(window.perlin, (t)=>{texturesLoaded++;onLoadTexture("noiseTexture", t);}),
-//     noiseNormalTexture: KhanImageLoader.LoadBase64Jpeg(window.perlinnormal, (t)=>{texturesLoaded++;onLoadTexture("noiseNormalTexture", t);}),
-//     streaksTexture: KhanImageLoader.LoadBase64Jpeg(window.streaks, (t)=>{texturesLoaded++;onLoadTexture("streaksTexture", t);}),
-//     voronoiTxture: KhanImageLoader.LoadBase64Jpeg(window.tilingvoronoi, (t)=>{texturesLoaded++;onLoadTexture("voronoiTexture", t);}),
-//     pathTexture: KhanImageLoader.LoadBase64Jpeg(window.Path1, (t)=>{texturesLoaded++;onLoadTexture("pathTexture", t);}),
-//     pathNormalTexture: KhanImageLoader.LoadBase64Jpeg(window.pathnormal3, (t)=>{texturesLoaded++;onLoadTexture("pathNormalTexture", t);})
-// }
+window.textures = {
+    noiseTexture: KhanImageLoader.LoadBase64Jpeg("noiseTexture", window.perlin, onLoadTexture),
+    noiseNormalTexture: KhanImageLoader.LoadBase64Jpeg("noiseNormalTexture", window.perlinnormal, onLoadTexture),
+    streaksTexture: KhanImageLoader.LoadBase64Jpeg("streaksTexture", window.streaks, onLoadTexture),
+    voronoiTexture: KhanImageLoader.LoadBase64Jpeg("voronoiTexture", window.tilingvoronoi, onLoadTexture, 1),
+    pathTexture: KhanImageLoader.LoadBase64Jpeg("pathTexture", window.Path1, onLoadTexture),
+    pathNormalTexture: KhanImageLoader.LoadBase64Jpeg("pathNormalTexture", window.pathnormal3, onLoadTexture),
+    brdfTexture: KhanImageLoader.LoadBase64Jpeg("brdfTexture", window.brdf, onLoadTexture),
+}
 
 engine.runRenderLoop(function () {
     scene.render();

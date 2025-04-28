@@ -1,8 +1,8 @@
 class GrassShaderPlugin extends BABYLON.MaterialPluginBase {
     constructor(material, scale){
-        super(material, "Foliage", 200, {SCALE: "5.0"});
+        super(material, "Foliage", 200, {SCALE: "1.0"});
 
-        this.scale = scale || "5.0"; // Default scale factor
+        this.scale = scale || "1.0"; // Default scale factor
 
         this.wind = BABYLON.Vector2.Zero();
         this.fallFactor = 0.0;
@@ -51,17 +51,20 @@ class GrassShaderPlugin extends BABYLON.MaterialPluginBase {
                 `,
                 "!alpha<alphaCutOff": `alpha < _alphaCutOff`,
                 "!vOpacityUV\\+uvOffset":`vOpacityUV*SCALE+uvOffset`,
+                "!vSpecularUV\\+uvOffset": "vSpecularUV*5.0+uvOffset",
                 "!alpha\\*=vColor\\.a": `
                 alpha = mix(0., 1., opacityMap.a);
 
-                float snow = (1.1-density)*specularMapColor.g* mix(.0, 1.0, vColor.r+0.1)*1.1  <= winterFactor ? 1.0 : 0.0; //
+                float snow = (1.1-density)*specularMapColor.r* mix(.0, 1.0, vColor.r+0.1)  <= (winterFactor-0.2)/0.5 ? 1.0 : 0.0; //
                 baseColor = mix(baseColor, vec4(0.92, 0.92, 0.95, 1.), snow);
                 alpha = clamp(alpha+snow, 0.0, 1.0);
 
                 alpha *= mix(1.0, 0.1, density);
-                alpha *= mix(1.1, 0.8, specularMapColor.g);
+                alpha *= mix(1.1, 0.8, specularMapColor.r);
                 `,
                 "!specularMapColor\\.rgb": "vec3(specularMapColor.g)*vSpecularColor.rgb;",
+                "!opacityMap\\.a": "opacityMap.r",
+                // "!alpha=1\\.0;":"alpha = 1.0;baseColor = specularMapColor;"
             };
         }else if(shaderType === "vertex"){
 

@@ -41,7 +41,7 @@ class LeafShaderPlugin extends BABYLON.MaterialPluginBase {
                 CUSTOM_FRAGMENT_UPDATE_ALPHA: `
                     float _alphaCutOff = mix(0.18, 0.3, vColor.r)+winterFactor;
                     // _alphaCutOff =  1. - (1. - _alphaCutOff) * mix(0.1, 0.8, baseColor.r);// * mix(0.5, 1.0, vColor.r);
-                    float density = baseColor.g;
+                    float density = baseColor.r;
                 `,
                 CUSTOM_FRAGMENT_UPDATE_DIFFUSE: `
                     float colorFactor = clamp(vColor.r+density*0.5, 0.0, 1.0);
@@ -52,19 +52,24 @@ class LeafShaderPlugin extends BABYLON.MaterialPluginBase {
                 `,
                 "!alpha<alphaCutOff": `alpha < _alphaCutOff`,
                 "!vOpacityUV\\+uvOffset":`vOpacityUV*SCALE+uvOffset`,
+                "!vDiffuseUV\\+uvOffset": `vDiffuseUV*0.45*SCALE+uvOffset`,
+                // "!vSpecularUV\\+uvOffset": "vSpecularUV*0.1+uvOffset",
                 "!alpha\\*=vColor\\.a": `
                 alpha = mix(0., 1., opacityMap.a);
-                alpha *= clamp(mix(1.0, mix(0.2, -1.0, vColor.r), density), 0.0, 1.0);
+                alpha *= clamp(mix(1.0, mix(0.15, -0.1, vColor.r), density), 0.0, 1.0);
                 // alpha *= mix(1.1, 0.8, specularMapColor.g);
                 // alpha = vColor.r < 0.6 ? 1.0 : 0.0;
+                // baseColor = opacityMap;
+                // alpha = 1.0;
                 `,
+                "!opacityMap\\.a": "opacityMap.r",
                 // "!specularMapColor\\.rgb": "vec3(specularMapColor.g)*vSpecularColor.rgb;",
                 "!uvOffset=.*;": "uvOffset = vec2(vColor.r, vColor.r*1.6);",
-                "!vDiffuseUV\\+uvOffset": `vDiffuseUV*3.0*SCALE+uvOffset`,
 
                 //subsurface scattering
                 "!result.diffuse=ndl.*;": "result.diffuse = (ndl + pow(max(-dot(vNormal, lightVectorW), 0.), 0.5)*SUBSURFACE )*diffuseColor*attenuation;",
                 "!dot\\(vNormal,lightVectorW\\)": "mix(SUBSURFACE*2.0, 1.0, dot(vNormal, lightVectorW))",
+                // "!alpha=1\\.0;":"alpha = 1.0;baseColor = density;"
             };
         }else if(shaderType === "vertex"){
 

@@ -10,10 +10,10 @@ class LeafMaterial extends BABYLON.StandardMaterial {
         this.transparencyMode = BABYLON.Material.MATERIAL_ALPHATEST;
         this.leafShaderPlugin = new LeafShaderPlugin(this, scale || "1.0");
 
-        this.opacityTexture = scene.getTextureByName("Leaves (Base Color)"); // dots
-        this.diffuseTexture = scene.getTextureByName("Dirt (Base Color)"); // noise
+        // this.opacityTexture = scene.getTextureByName("Leaves (Base Color)"); // dots
+        // this.diffuseTexture = scene.getTextureByName("Dirt (Base Color)"); // noise
 
-        // this.opacityTexture = window.textures.voronoiTexture;
-        // this.diffuseTexture = window.textures.noiseTexture;
+        this.opacityTexture = window.textures.voronoiTexture;
+        this.diffuseTexture = window.textures.noiseTexture;
     }
 }

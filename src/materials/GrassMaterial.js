@@ -1,5 +1,5 @@
 class GrassMaterial extends BABYLON.StandardMaterial {
-    constructor(name, scene) {
+    constructor(name, scen, scale) {
         super(name, scene);
         this.name = name;
         
@@ -8,13 +8,13 @@ class GrassMaterial extends BABYLON.StandardMaterial {
         this.specularColor = new BABYLON.Color3(0.05, 0.04, 0.02);
 
         this.transparencyMode = BABYLON.Material.MATERIAL_ALPHATEST;
-        this.grassShaderPlugin = new GrassShaderPlugin(this);
+        this.grassShaderPlugin = new GrassShaderPlugin(this, scale || "1.0");
 
-        this.opacityTexture = scene.getTextureByName("Leaves (Base Color)"); // dots
-        this.diffuseTexture = scene.getTextureByName("Dirt (Emissive)"); // paths
-        this.specularTexture = scene.getTextureByName("Dirt (Metallic Roughness)"); // noise
-        // this.opacityTexture = window.textures.voronoiTexture;
-        // this.diffuseTexture = window.textures.pathTexture;
-        // this.specularTexture = window.textures.noiseTexture;
+        // this.opacityTexture = scene.getTextureByName("Leaves (Base Color)"); // dots
+        // this.diffuseTexture = scene.getTextureByName("Dirt (Emissive)"); // paths
+        // this.specularTexture = scene.getTextureByName("Dirt (Metallic Roughness)"); // noise
+        this.opacityTexture = window.textures.voronoiTexture;
+        this.diffuseTexture = window.textures.pathTexture;
+        this.specularTexture = window.textures.noiseTexture;
     }
 }

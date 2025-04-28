@@ -213,7 +213,7 @@ BABYLON.SceneLoader.AppendAsync("../Exports/", ua, scene, function (progress) {c
             if(materialName === "Nice Wood"){
                 material.albedoTexture = window.textures.woodDiffuseTexture;
                 material.bumpTexture = window.textures.woodNormalTexture;
-                material.roughnessTexture = window.textures.woodRoughnessTexture;
+                material.metallicTexture = window.textures.woodRoughnessTexture;
             }
             if(materialName === "Brass"){
                 material.bumpTexture = window.textures.metalNormalTexture;
@@ -312,9 +312,9 @@ window.textures = {
     brdfTexture: KhanImageLoader.LoadBase64Jpeg("brdfTexture", window.brdf, onLoadTexture),
     woodDiffuseTexture: KhanImageLoader.LoadBase64Jpeg("woodDiffuseTexture", window.woodDiffuse, onLoadTexture),
     woodNormalTexture: KhanImageLoader.LoadBase64Jpeg("woodNormalTexture", window.woodNormal, onLoadTexture),
-    woodRoughnessTexture: KhanImageLoader.LoadBase64Jpeg("woodRoughnessTexture", window.woodRoughness, onLoadTexture),
+    woodRoughnessTexture: KhanImageLoader.LoadBase64Jpeg("woodRoughnessTexture", window.woodRoughness, onLoadTexture, 1),
     metalNormalTexture: KhanImageLoader.LoadBase64Jpeg("metalNormalTexture", window.metalNormal, onLoadTexture),
-    metalRoughnessTexture: KhanImageLoader.LoadBase64Jpeg("metalRoughnessTexture", window.metalRoughness, onLoadTexture),
+    metalRoughnessTexture: KhanImageLoader.LoadBase64Jpeg("metalRoughnessTexture", window.metalRoughness, onLoadTexture, 1),
 }
 
 engine.runRenderLoop(function () {

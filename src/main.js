@@ -14,7 +14,7 @@ const scene = new BABYLON.Scene(engine);
 
 
 
-const insideRenderTarget = new BABYLON.RenderTargetTexture("insideRenderTarget", { width: engine.getRenderWidth(), height:engine.getRenderHeight() }, scene);
+const insideRenderTarget = new BABYLON.RenderTargetTexture("insideRenderTarget", { width: engine.getRenderWidth()*1.2, height:engine.getRenderHeight()*1.2 }, scene);
 // scene.customRenderTargets.push(insideRenderTarget);
 
 const camera = new BABYLON.ArcRotateCamera("Camera", 26.6, 1.18, 5, new BABYLON.Vector3(0, 0, 0), scene);
@@ -217,7 +217,7 @@ BABYLON.SceneLoader.AppendAsync("../Exports/", ua, scene, function (progress) {c
             }
             if(materialName === "Brass"){
                 material.bumpTexture = window.textures.metalNormalTexture;
-                material.roughnessTexture = window.textures.metalRoughnessTexture;
+                material.metallicTexture = window.textures.metalRoughnessTexture;
                 
             }
 

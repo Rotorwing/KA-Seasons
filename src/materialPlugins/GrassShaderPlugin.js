@@ -55,7 +55,7 @@ class GrassShaderPlugin extends BABYLON.MaterialPluginBase {
                 "!alpha\\*=vColor\\.a": `
                 alpha = mix(0., 1., opacityMap.a);
 
-                float snow = (1.1-density)*specularMapColor.r* mix(.0, 1.0, vColor.r+0.1)  <= (winterFactor-0.2)/0.5 ? 1.0 : 0.0; //
+                float snow = (1.1-density)*specularMapColor.r* mix(.0, 1.0, vColor.r+0.1)  <= (winterFactor-0.2)/0.15 ? 1.0 : 0.0; //
                 baseColor = mix(baseColor, vec4(0.92, 0.92, 0.95, 1.), snow);
                 alpha = clamp(alpha+snow, 0.0, 1.0);
 
